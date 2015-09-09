@@ -9,16 +9,16 @@ class AddUniqueIndexOnCustomFieldsTrackers < ActiveRecord::Migration
       CustomField.connection.execute("INSERT INTO #{table_name} (custom_field_id, tracker_id) VALUES (#{custom_field_id}, #{tracker_id})")
     end
 
-    if index_exists? :custom_fields_trackers, [:custom_field_id, :tracker_id]
-      remove_index :custom_fields_trackers, [:custom_field_id, :tracker_id]
+    if index_exists? :custom_fields_trackers, [:custom_field_id, :tracker_id], name: :cf_trackers_cf_id_tracker_id
+      remove_index :custom_fields_trackers, name: :cf_trackers_cf_id_tracker_id
     end
-    add_index :custom_fields_trackers, [:custom_field_id, :tracker_id], :unique => true
+    add_index :custom_fields_trackers, [:custom_field_id, :tracker_id], :unique => true, :name => :cf_trackers_cf_id_tracker_id
   end
 
   def down
-    if index_exists? :custom_fields_trackers, [:custom_field_id, :tracker_id]
-      remove_index :custom_fields_trackers, [:custom_field_id, :tracker_id]
+    if index_exists? :custom_fields_trackers, [:custom_field_id, :tracker_id], name: :cf_trackers_cf_id_tracker_id
+      remove_index :custom_fields_trackers, name: :cf_trackers_cf_id_tracker_id
     end
-    add_index :custom_fields_trackers, [:custom_field_id, :tracker_id]
+    add_index :custom_fields_trackers, [:custom_field_id, :tracker_id], name: :cf_trackers_cf_id_tracker_id
   end
 end

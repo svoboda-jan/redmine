@@ -9,16 +9,16 @@ class AddUniqueIndexOnCustomFieldsProjects < ActiveRecord::Migration
       CustomField.connection.execute("INSERT INTO #{table_name} (custom_field_id, project_id) VALUES (#{custom_field_id}, #{project_id})")
     end
 
-    if index_exists? :custom_fields_projects, [:custom_field_id, :project_id]
-      remove_index :custom_fields_projects, [:custom_field_id, :project_id]
+    if index_exists?(:custom_fields_projects, [:custom_field_id, :project_id], name: :cf_projects_cf_id_project_id)
+      remove_index :custom_fields_projects, name: :cf_projects_cf_id_project_id
     end
-    add_index :custom_fields_projects, [:custom_field_id, :project_id], :unique => true
+    add_index :custom_fields_projects, [:custom_field_id, :project_id], :unique => true, :name => :cf_projects_cf_id_project_id
   end
 
   def down
-    if index_exists? :custom_fields_projects, [:custom_field_id, :project_id]
-      remove_index :custom_fields_projects, [:custom_field_id, :project_id]
+    if index_exists?(:custom_fields_projects, [:custom_field_id, :project_id], name: :cf_projects_cf_id_project_id)
+      remove_index :custom_fields_projects, name: :cf_projects_cf_id_project_id
     end
-    add_index :custom_fields_projects, [:custom_field_id, :project_id]
+    add_index :custom_fields_projects, [:custom_field_id, :project_id], name: :cf_projects_cf_id_project_id
   end
 end

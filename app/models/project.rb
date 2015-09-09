@@ -50,7 +50,7 @@ class Project < ActiveRecord::Base
   has_one :wiki, :dependent => :destroy
   # Custom field for the project issues
   has_and_belongs_to_many :issue_custom_fields,
-                          lambda {order("#{CustomField.table_name}.position")},
+                          lambda {order(CustomField.arel_table[:position])},
                           :class_name => 'IssueCustomField',
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'

@@ -135,7 +135,7 @@ module ActiveRecord
         end
 
         def reset_positions_in_list
-          acts_as_list_class.where(scope_condition).reorder("#{position_column} ASC, id ASC").each_with_index do |item, i|
+          acts_as_list_class.where(scope_condition).reorder(position_column => :asc, :id => :asc).each_with_index do |item, i|
             unless item.send(position_column) == (i + 1)
               acts_as_list_class.where({:id => item.id}).
                 update_all({position_column => (i + 1)})
@@ -219,7 +219,7 @@ module ActiveRecord
           def bottom_item(except = nil)
             conditions = scope_condition
             conditions = "#{conditions} AND #{self.class.primary_key} != #{except.id}" if except
-            acts_as_list_class.where(conditions).reorder("#{position_column} DESC").first
+            acts_as_list_class.where(conditions).reorder(position_column => :desc).first
           end
 
           # Forces item to assume the bottom position in the list.

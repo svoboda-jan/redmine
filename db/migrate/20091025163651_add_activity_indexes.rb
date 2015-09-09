@@ -2,7 +2,7 @@ class AddActivityIndexes < ActiveRecord::Migration
   def self.up
     add_index :journals, :created_on
     add_index :changesets, :committed_on
-    add_index :wiki_content_versions, :updated_on
+    add_index :wiki_content_versions, :updated_on, name: :wiki_content_versions_upd_on
     add_index :messages, :created_on
     add_index :issues, :created_on
     add_index :news, :created_on
@@ -14,7 +14,7 @@ class AddActivityIndexes < ActiveRecord::Migration
   def self.down
     remove_index :journals, :created_on
     remove_index :changesets, :committed_on
-    remove_index :wiki_content_versions, :updated_on
+    remove_index :wiki_content_versions, :updated_on, name: :wiki_content_versions_upd_on
     remove_index :messages, :created_on
     remove_index :issues, :created_on
     remove_index :news, :created_on

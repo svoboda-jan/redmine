@@ -178,3 +178,20 @@ module ActionController
     end
   end
 end
+
+# FIXME https://github.com/rowland/activerecord-fb-adapter/pull/63
+if ActiveRecord::Base.connection_config[:adapter] == 'fb' && Gem.loaded_specs['activerecord-fb-adapter'].version <= Gem::Version.new('1.0.2')
+  module Arel
+    module Visitors
+      class Fb
+        # Firebird helper
+        def limit_with_rows o, collector
+          collector << " ROWS "
+          visit o.offset.expr + 1, collector
+          collector << " TO "
+          visit o.offset.expr + o.limit.expr, collector
+        end
+      end
+    end
+  end
+end

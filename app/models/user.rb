@@ -653,7 +653,7 @@ class User < Principal
   # Returns true if the user is allowed to delete the user's own account
   def own_account_deletable?
     Setting.unsubscribe? &&
-      (!admin? || User.active.where("admin = ? AND id <> ?", true, id).exists?)
+      (!admin? || User.active.where(admin: true).where.not(id: id).exists?)
   end
 
   safe_attributes 'login',

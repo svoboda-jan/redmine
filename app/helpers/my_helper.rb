@@ -37,7 +37,7 @@ module MyHelper
       limit(10).
       includes(:status, :project, :tracker, :priority).
       references(:status, :project, :tracker, :priority).
-      order("#{IssuePriority.table_name}.position DESC, #{Issue.table_name}.updated_on DESC").
+      order(IssuePriority.arel_table[:position].desc, Issue.arel_table[:updated_on]).
       to_a
   end
 
