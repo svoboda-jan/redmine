@@ -60,7 +60,7 @@ namespace :redmine do
                            'patch' =>TRACKER_FEATURE
                            }
 
-        roles = Role.where(:builtin => 0).order('position ASC').all
+        roles = Role.where(:builtin => 0).order(:position).all
         manager_role = roles[0]
         developer_role = roles[1]
         DEFAULT_ROLE = roles.last

@@ -52,7 +52,7 @@ task :migrate_from_mantis => :environment do
       TRACKER_BUG = Tracker.find_by_position(1)
       TRACKER_FEATURE = Tracker.find_by_position(2)
 
-      roles = Role.where(:builtin => 0).order('position ASC').all
+      roles = Role.where(:builtin => 0).order(:position).all
       manager_role = roles[0]
       developer_role = roles[1]
       DEFAULT_ROLE = roles.last
