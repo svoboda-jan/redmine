@@ -66,7 +66,8 @@ class VersionsController < ApplicationController
       format.html {
         @issues = @version.fixed_issues.visible.
           includes(:status, :tracker, :priority).
-          reorder("#{Tracker.table_name}.position, #{Issue.table_name}.id").
+          references(:status, :tracker, :priority).
+          reorder(Tracker.arel_table[:position], Issue.arel_table[:id]).
           to_a
       }
       format.api
