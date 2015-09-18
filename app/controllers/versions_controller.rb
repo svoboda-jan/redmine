@@ -50,7 +50,7 @@ class VersionsController < ApplicationController
             includes(:project, :tracker).
             preload(:status, :priority, :fixed_version).
             where(:tracker_id => @selected_tracker_ids, :project_id => project_ids, :fixed_version_id => @versions.map(&:id)).
-            order("#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id")
+            order(Project.arel_table[:lft], Tracker.arel_table[:position], Issue.arel_table[:id])
           @issues_by_version = issues.group_by(&:fixed_version)
         end
         @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
